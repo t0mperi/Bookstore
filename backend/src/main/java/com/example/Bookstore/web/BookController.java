@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.BookRepository;
+import com.example.Bookstore.model.Category;
+import com.example.Bookstore.model.CategoryRepository;
 
 @Controller
 public class BookController {
     @Autowired
     private BookRepository repository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     // List all books
     @GetMapping("/booklist")
@@ -26,6 +31,7 @@ public class BookController {
     @GetMapping("/add")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "addbook";
     }
     
@@ -33,6 +39,7 @@ public class BookController {
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable("id") Long bookId, Model model) {
         model.addAttribute("book", repository.findById(bookId).orElse(null));
+        model.addAttribute("categories", categoryRepository.findAll());
         return "editbook";
     }
     
