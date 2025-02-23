@@ -2,8 +2,10 @@ package com.example.Bookstore.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,6 +13,7 @@ public class Category {
     private String name;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<Book> books;
     
     public Category() {}
